@@ -15,27 +15,30 @@ function isInvalid(input) {
     input.classList.add("is--invalid");
   }
 }
+
 function NotCollect(input, origin) {
   if (!input.value === user.origin) {
     input.classList.add("is--invalid");
   }
 }
 
-let r;
-
 function clickHandler() {
-  event.preventDefault();
+  event.preventDefault(); //찾아보기
+
   isInvalid(userEmail);
   isInvalid(userPassword);
+
   if (userEmail.value === user.id && userPassword.value === user.pw) {
     window.location.href = "welcome.html";
   } else if (!userEmail.value === user.id || !userPassword.value === user.pw) {
-    if (!userEmail.value === user.id) {
-      userEmail.classList.add("is--invalid");
-    }
-    if (!userPassword.value === user.pw) {
-      userPassword.classList.add("is--invalid");
-    }
+    NotCollect(userEmail, id);
+    NotCollect(userPassword, pw);
+    // if (!userEmail.value === user.id) {
+    //   userEmail.classList.add("is--invalid");
+    // }
+    // if (!userPassword.value === user.pw) {
+    //   userPassword.classList.add("is--invalid");
+    // }
   }
 }
 btnLogin.addEventListener("click", clickHandler);
