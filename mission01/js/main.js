@@ -8,8 +8,22 @@ const userEmail = document.querySelector("#userEmail");
 const userPassword = document.querySelector("#userPassword");
 const btnLogin = document.querySelector(".btn-login");
 
-function isInvalid(input) {
-  if (emailReg(input.value) === true) {
+// function isInvalidEmailReg(input) {
+//   if (emailReg(input.value) === true) {
+//     input.classList.remove("is--invalid");
+//   } else {
+//     input.classList.add("is--invalid");
+//   }
+// }
+// function isInvalidPwReg(input) {
+//   if (pwReg(input.value) === true) {
+//     input.classList.remove("is--invalid");
+//   } else {
+//     input.classList.add("is--invalid");
+//   }
+// }
+function isInvalid(reg, input) {
+  if (reg(input.value) === true) {
     input.classList.remove("is--invalid");
   } else {
     input.classList.add("is--invalid");
@@ -19,18 +33,22 @@ function isInvalid(input) {
 function NotCollect(input, origin) {
   if (!input.value === user.origin) {
     input.classList.add("is--invalid");
+  } else {
+    input.classList.remove("is--invalid");
   }
 }
 
 function clickHandler() {
   event.preventDefault(); //찾아보기
 
-  isInvalid(userEmail);
-  isInvalid(userPassword);
+  // isInvalidPwReg(userPassword);
+  // isInvalidEmailReg(userEmail);
+  isInvalid(emailReg, userEmail);
+  isInvalid(pwReg, userPassword);
 
   if (userEmail.value === user.id && userPassword.value === user.pw) {
     window.location.href = "welcome.html";
-  } else if (!userEmail.value === user.id || !userPassword.value === user.pw) {
+  } else if (!userEmail.value === user.id && !userPassword.value === user.pw) {
     NotCollect(userEmail, id);
     NotCollect(userPassword, pw);
     // if (!userEmail.value === user.id) {
@@ -39,6 +57,10 @@ function clickHandler() {
     // if (!userPassword.value === user.pw) {
     //   userPassword.classList.add("is--invalid");
     // }
+  } else if (!userEmail.value === user.id) {
+    NotCollect(userEmail, id);
+  } else if (!userPassword.value === user.pw) {
+    NotCollect(userPassword, pw);
   }
 }
 btnLogin.addEventListener("click", clickHandler);
