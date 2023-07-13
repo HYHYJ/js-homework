@@ -4,6 +4,8 @@ const user = {
 };
 
 //인풋 값 확인하는 방법 : $0.value
+
+//! 선택자 불러오기
 const userEmail = document.querySelector("#userEmail");
 const userPassword = document.querySelector("#userPassword");
 const btnLogin = document.querySelector(".btn-login");
@@ -22,6 +24,7 @@ const btnLogin = document.querySelector(".btn-login");
 //     input.classList.add("is--invalid");
 //   }
 // }
+//! 사용자가 인풋을 형식에 맞게 썻는지 확인
 function isInvalid(reg, input) {
   if (reg(input.value) === true) {
     input.classList.remove("is--invalid");
@@ -29,7 +32,7 @@ function isInvalid(reg, input) {
     input.classList.add("is--invalid");
   }
 }
-
+//! 인풋값과 가지고 있는 값이 일치하는지 확인
 function NotCollect(input, origin) {
   if (!input.value === user.origin) {
     input.classList.add("is--invalid");
@@ -37,7 +40,7 @@ function NotCollect(input, origin) {
     input.classList.remove("is--invalid");
   }
 }
-
+//! 클릭 이벤트 함수
 function clickHandler() {
   event.preventDefault(); //찾아보기
 
@@ -46,6 +49,7 @@ function clickHandler() {
   isInvalid(emailReg, userEmail);
   isInvalid(pwReg, userPassword);
 
+  //! 아이디 비밀번호가 일치하면 welcome 페이지로 이동
   if (userEmail.value === user.id && userPassword.value === user.pw) {
     window.location.href = "welcome.html";
   } else if (!userEmail.value === user.id && !userPassword.value === user.pw) {
@@ -63,6 +67,8 @@ function clickHandler() {
     NotCollect(userPassword, pw);
   }
 }
+
+//! 버튼 클릭 이벤트
 btnLogin.addEventListener("click", clickHandler);
 /*
 
