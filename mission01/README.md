@@ -12,15 +12,19 @@
 #####  - 아이디, 비밀번호가 맞지 않을 때
   <img src="./images/4.png" width="300px">
 
-#####  - 아이디, 비밀번호가 맞아서 Welcome Page로 이동
+#####  - 버튼을 눌렀을 때 아이디, 비밀번호가 일치하지 않을 때
   <img src="./images/5.png" width="300px">
+
+#####  - 아이디, 비밀번호가 맞아서 Welcome Page로 이동
+  <img src="./images/6.png" width="300px">
+
 
 
 <br />
 
 ### 2. Javascript
 ---
-- 사용자가 설정한 아이디, 비밀번호 정보 const user로 설정
+- 사용자가 설정한 아이디, 비밀번호 정보 const user 변수로 설정
 ```js
 const user = {
   id: "asd@naver.com",
@@ -49,86 +53,67 @@ const userEmail = document.querySelector("#userEmail");
 const userPassword = document.querySelector("#userPassword");
 const btnLogin = document.querySelector(".btn-login");
 ```
-- 사용자가 인풋에 지정한 정규식형식에 맞게 썻는지 확인하는 함수 isInvalid
+- 이메일, 비밀번호 인풋 이벤트리스너 부분
+- 사용자가 인풋에 지정한 정규식형식에 맞게 썻는지 확인하는 함수 
 ```js
 
-//! 사용자가 인풋을 형식에 맞게 썻는지 확인
-function isInvalid(reg, input) {
-  if (reg(input.value) === true) {
-    input.classList.remove("is--invalid");
+//! 사용자가 이메일, 비밀번호 인풋을 형식에 맞게 썻는지 확인하는 함수
+//! 이메일 인풋 이벤트 함수
+function handlerEmailInput() {
+  if (emailReg(userEmail.value) === true || userEmail.value === "") {
+    userEmail.classList.remove("is--invalid");
   } else {
-    input.classList.add("is--invalid");
+    userEmail.classList.add("is--invalid");
+  }
+}
+//! 비밀번호 인풋 이벤트 함수
+function handlerPasswordInput() {
+  if (pwReg(userPassword.value) === true || userPassword.value === "") {
+    userPassword.classList.remove("is--invalid");
+  } else {
+    userPassword.classList.add("is--invalid");
   }
 }
 ```
-- 입력한 인풋값과 사용자가 본래 지정한 설정한 아이디, 비밀번호 값이 일치하는지 확인하는 함수(일치하지 않으면 인풋 밑에 경고문자 보이게하기) NotCollect
-```js
-//! 인풋값과 가지고 있는 값이 일치하는지 확인
-function NotCollect(input, origin) {
-  if (!input.value === user.origin) {
-    input.classList.add("is--invalid");
-  } else {
-    input.classList.remove("is--invalid");
-  }
-}
-```
+
 - 클릭 이벤트 함수 function clickHandler 
   - 아이디 비밀번호가 일치하면 welcome 페이지로 이동하는 if문
+  - 일치 하지않으면 alert
 ```js
 //! 클릭 이벤트 함수
 function clickHandler(event) {
   event.preventDefault(); //찾아보기
 
-  isInvalid(emailReg, userEmail);
-  isInvalid(pwReg, userPassword);
-
   //! 아이디 비밀번호가 일치하면 welcome 페이지로 이동
   if (userEmail.value === user.id && userPassword.value === user.pw) {
     window.location.href = "welcome.html";
-  } else if (!userEmail.value === user.id && !userPassword.value === user.pw) {
-    NotCollect(userEmail, id);
-    NotCollect(userPassword, pw);
-  } else if (!userEmail.value === user.id) {
-    NotCollect(userEmail, id);
-  } else if (!userPassword.value === user.pw) {
-    NotCollect(userPassword, pw);
+  } else if (
+    !(userEmail.value === user.id) &&
+    !(userPassword.value === user.pw)
+  ) {
+    alert("아이디와 비밀번호가 올바르지 않습니다.");
+  } else if (!(userEmail.value === user.id)) {
+    alert("아이디가 올바르지 않습니다.");
+  } else if (!(userPassword.value === user.pwuser)) {
+    alert("비밀번호가 올바르지 않습니다.");
   }
 }
 ```
-- 버튼 클릭 이벤트 addEventListener
+- 이벤트 addEventListener
 ```js
-//! 버튼 클릭 이벤트
-btnLogin.addEventListener("click", clickHandler);
-
+//! addEventListener input, click
+userEmail.addEventListener("input", handlerEmailInput);
+userPassword.addEventListener("input", handlerPasswordInput);
+btnLogin.addEventListener("click", handlerClick);
 ```
-- 인풋 이벤트 addEventListener
-```js
-//! 인풋 이벤트
-userEmail.addEventListener("input", function () {
-  event.preventDefault();
-  if (emailReg(userEmail.value)) {
-    userEmail.classList.add("is-active");
-  } else {
-    userEmail.classList.remove("is-active");
-  }
-});
 
-userPassword.addEventListener("input", function () {
-  event.preventDefault();
-  if (pwReg(userPassword.value)) {
-    userPassword.classList.add("is-active");
-  } else {
-    userPassword.classList.remove("is-active");
-  }
-});
-```
 
 <br />
 
 ### 3. 어려웠던 점
 ---
-- input의 addEventListener가 작동을 하지 않는다.
-- 우선, isInvalid 함수를 따로 만들어 클릭이벤트에서 함수를 실행했다.
+
+
 - addEventListener에 대한 학습이 더욱 필요한거 같다.
 ```js
 userEmail.addEventListener("input", function ()
