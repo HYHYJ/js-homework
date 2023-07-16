@@ -20,37 +20,28 @@ const userEmail = document.querySelector("#userEmail");
 const userPassword = document.querySelector("#userPassword");
 const btnLogin = document.querySelector(".btn-login");
 
-//! 이메일 인풋 이벤트
-// userEmail.addEventListener("input", function () {
-//   if (emailReg(userEmail.value) === true || userEmail.value === "") {
-//     userEmail.classList.remove("is--invalid");
-//   } else {
-//     userEmail.classList.add("is--invalid");
-//   }
-// });
-//! 비밀번호 인풋 이벤트
-// userPassword.addEventListener("input", function () {
-//   if (pwReg(userPassword.value) === true || userPassword.value === "") {
-//     userPassword.classList.remove("is--invalid");
-//   } else {
-//     userPassword.classList.add("is--invalid");
-//   }
-// });
-
+//? 상태변수
+let idPass = false;
 //! 이메일 인풋 이벤트
 function handlerEmailInput() {
   if (emailReg(userEmail.value) === true || userEmail.value === "") {
     userEmail.classList.remove("is--invalid");
+    idPass = true;
   } else {
     userEmail.classList.add("is--invalid");
+    idPass = false;
   }
 }
+//? 상태변수
+let pwPass = false;
 //! 비밀번호 인풋 이벤트
 function handlerPasswordInput() {
   if (pwReg(userPassword.value) === true || userPassword.value === "") {
     userPassword.classList.remove("is--invalid");
+    pwPass = true;
   } else {
     userPassword.classList.add("is--invalid");
+    pwPass = false;
   }
 }
 
@@ -58,18 +49,22 @@ function handlerPasswordInput() {
 function handlerClick(event) {
   event.preventDefault(); //찾아보기
 
-  //! 아이디 비밀번호가 일치하면 welcome 페이지로 이동
-  if (userEmail.value === user.id && userPassword.value === user.pw) {
-    window.location.href = "welcome.html";
-  } else if (
-    !(userEmail.value === user.id) &&
-    !(userPassword.value === user.pw)
-  ) {
-    alert("아이디와 비밀번호가 올바르지 않습니다.");
-  } else if (!(userEmail.value === user.id)) {
-    alert("아이디가 올바르지 않습니다.");
-  } else if (!(userPassword.value === user.pwuser)) {
-    alert("비밀번호가 올바르지 않습니다.");
+  if (idPass && pwPass) {
+    //! 아이디 비밀번호가 일치하면 welcome 페이지로 이동
+    if (userEmail.value === user.id && userPassword.value === user.pw) {
+      window.location.href = "welcome.html";
+    } else if (
+      !(userEmail.value === user.id) &&
+      !(userPassword.value === user.pw)
+    ) {
+      alert("아이디와 비밀번호가 올바르지 않습니다.");
+    } else if (!(userEmail.value === user.id)) {
+      alert("아이디가 올바르지 않습니다.");
+    } else if (!(userPassword.value === user.pwuser)) {
+      alert("비밀번호가 올바르지 않습니다.");
+    }
+  } else {
+    alert("아이디와 비밀번호가 올바른지 확인해주세요.");
   }
 }
 
