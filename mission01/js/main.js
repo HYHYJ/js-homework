@@ -20,65 +20,64 @@ const userEmail = document.querySelector("#userEmail");
 const userPassword = document.querySelector("#userPassword");
 const btnLogin = document.querySelector(".btn-login");
 
-//! 사용자가 인풋을 형식에 맞게 썻는지 확인
-function isInvalid(reg, input) {
-  if (reg(input.value) === true) {
-    input.classList.remove("is--invalid");
+//! 이메일 인풋 이벤트
+// userEmail.addEventListener("input", function () {
+//   if (emailReg(userEmail.value) === true || userEmail.value === "") {
+//     userEmail.classList.remove("is--invalid");
+//   } else {
+//     userEmail.classList.add("is--invalid");
+//   }
+// });
+//! 비밀번호 인풋 이벤트
+// userPassword.addEventListener("input", function () {
+//   if (pwReg(userPassword.value) === true || userPassword.value === "") {
+//     userPassword.classList.remove("is--invalid");
+//   } else {
+//     userPassword.classList.add("is--invalid");
+//   }
+// });
+
+//! 이메일 인풋 이벤트
+function handlerEmailInput() {
+  if (emailReg(userEmail.value) === true || userEmail.value === "") {
+    userEmail.classList.remove("is--invalid");
   } else {
-    input.classList.add("is--invalid");
+    userEmail.classList.add("is--invalid");
   }
 }
-
-//! 인풋값과 가지고 있는 값이 일치하는지 확인
-function NotCollect(input, origin) {
-  if (!input.value === user.origin) {
-    input.classList.add("is--invalid");
+//! 비밀번호 인풋 이벤트
+function handlerPasswordInput() {
+  if (pwReg(userPassword.value) === true || userPassword.value === "") {
+    userPassword.classList.remove("is--invalid");
   } else {
-    input.classList.remove("is--invalid");
+    userPassword.classList.add("is--invalid");
   }
 }
 
 //! 클릭 이벤트 함수
-function clickHandler(event) {
+function handlerClick(event) {
   event.preventDefault(); //찾아보기
-
-  isInvalid(emailReg, userEmail);
-  isInvalid(pwReg, userPassword);
 
   //! 아이디 비밀번호가 일치하면 welcome 페이지로 이동
   if (userEmail.value === user.id && userPassword.value === user.pw) {
     window.location.href = "welcome.html";
-  } else if (!userEmail.value === user.id && !userPassword.value === user.pw) {
-    NotCollect(userEmail, id);
-    NotCollect(userPassword, pw);
-  } else if (!userEmail.value === user.id) {
-    NotCollect(userEmail, id);
-  } else if (!userPassword.value === user.pw) {
-    NotCollect(userPassword, pw);
+  } else if (
+    !(userEmail.value === user.id) &&
+    !(userPassword.value === user.pw)
+  ) {
+    alert("아이디와 비밀번호가 올바르지 않습니다.");
+  } else if (!(userEmail.value === user.id)) {
+    alert("아이디가 올바르지 않습니다.");
+  } else if (!(userPassword.value === user.pwuser)) {
+    alert("비밀번호가 올바르지 않습니다.");
   }
 }
 
-//! 버튼 클릭 이벤트
-btnLogin.addEventListener("click", clickHandler);
+//! addEventListener input, click
+userEmail.addEventListener("input", handlerEmailInput);
+userPassword.addEventListener("input", handlerPasswordInput);
+btnLogin.addEventListener("click", handlerClick);
 
-//! 인풋 클릭 이벤트
-userEmail.addEventListener("input", function () {
-  event.preventDefault();
-  if (emailReg(userEmail.value)) {
-    userEmail.classList.add("is-active");
-  } else {
-    userEmail.classList.remove("is-active");
-  }
-});
-
-userPassword.addEventListener("input", function () {
-  event.preventDefault();
-  if (pwReg(userPassword.value)) {
-    userPassword.classList.add("is-active");
-  } else {
-    userPassword.classList.remove("is-active");
-  }
-});
 /*
 
 1. email 정규표현식을 사용한 validation
