@@ -54,48 +54,64 @@ const userPassword = document.querySelector("#userPassword");
 const btnLogin = document.querySelector(".btn-login");
 ```
 - 이메일, 비밀번호 인풋 이벤트리스너 부분
+- 상태변수로 idPass, pwPass로 true, false 주기
 - 사용자가 인풋에 지정한 정규식형식에 맞게 썻는지 확인하는 함수 
 ```js
 
 //! 사용자가 이메일, 비밀번호 인풋을 형식에 맞게 썻는지 확인하는 함수
 //! 이메일 인풋 이벤트 함수
+//? 상태변수
+let idPass = false;
+//! 이메일 인풋 이벤트
 function handlerEmailInput() {
   if (emailReg(userEmail.value) === true || userEmail.value === "") {
     userEmail.classList.remove("is--invalid");
+    idPass = true;
   } else {
     userEmail.classList.add("is--invalid");
+    idPass = false;
   }
 }
-//! 비밀번호 인풋 이벤트 함수
+//? 상태변수
+let pwPass = false;
+//! 비밀번호 인풋 이벤트
 function handlerPasswordInput() {
   if (pwReg(userPassword.value) === true || userPassword.value === "") {
     userPassword.classList.remove("is--invalid");
+    pwPass = true;
   } else {
     userPassword.classList.add("is--invalid");
+    pwPass = false;
   }
 }
 ```
 
 - 클릭 이벤트 함수 function clickHandler 
+  - 상태변수가 맞으면 로그인 실행
   - 아이디 비밀번호가 일치하면 welcome 페이지로 이동하는 if문
   - 일치 하지않으면 alert
 ```js
 //! 클릭 이벤트 함수
-function clickHandler(event) {
+//! 클릭 이벤트 함수
+function handlerClick(event) {
   event.preventDefault(); //찾아보기
 
-  //! 아이디 비밀번호가 일치하면 welcome 페이지로 이동
-  if (userEmail.value === user.id && userPassword.value === user.pw) {
-    window.location.href = "welcome.html";
-  } else if (
-    !(userEmail.value === user.id) &&
-    !(userPassword.value === user.pw)
-  ) {
-    alert("아이디와 비밀번호가 올바르지 않습니다.");
-  } else if (!(userEmail.value === user.id)) {
-    alert("아이디가 올바르지 않습니다.");
-  } else if (!(userPassword.value === user.pwuser)) {
-    alert("비밀번호가 올바르지 않습니다.");
+  if (idPass && pwPass) {
+    //! 아이디 비밀번호가 일치하면 welcome 페이지로 이동
+    if (userEmail.value === user.id && userPassword.value === user.pw) {
+      window.location.href = "welcome.html";
+    } else if (
+      !(userEmail.value === user.id) &&
+      !(userPassword.value === user.pw)
+    ) {
+      alert("아이디와 비밀번호가 올바르지 않습니다.");
+    } else if (!(userEmail.value === user.id)) {
+      alert("아이디가 올바르지 않습니다.");
+    } else if (!(userPassword.value === user.pwuser)) {
+      alert("비밀번호가 올바르지 않습니다.");
+    }
+  } else {
+    alert("아이디와 비밀번호가 올바른지 확인해주세요.");
   }
 }
 ```
